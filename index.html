@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html>
 <h1>Visualizing Hotel Booking Trends and Customer Behaviors with Interactive Views</h1>
-<h2>&nbsp;1. Overview</h2>
-<h3>1.1 Audience</h3>
-<h3>1.2 Dataset</h3>
-<h3>1.3 General Takeaways</h3>
-<h2>2. Views and critiques</h2>
+
   <style>
     body {
       font-family: system-ui, sans-serif;
@@ -16,34 +12,69 @@
       margin-bottom: 20px;
     }
 
-    /* Reusable card style */
-    .member-card {
-      background-color: #fff8e5;            /* pale yellow */
-      border-left: 6px solid #f7a623;       /* orange strip */
-      padding: 14px 18px;
-      margin: 12px 0;
-      display: block;
-      text-decoration: none;                /* no underline */
-      color: #222;
-      font-size: 1.1rem;
-      border-radius: 4px;
-      transition: background-color 0.2s;
-    }
+  /* Base reusable card style */
+  .member-card {
+    border-left: 6px solid #f7a623;
+    padding: 14px 18px;
+    margin: 12px 0;
+    display: block;
+    text-decoration: none;
+    color: #222;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
 
-    .member-card:hover {
-      background-color: #ffe7bd;            /* darker on hover */
-    }
-  </style>
+  .member-card:hover {
+    background-color: #ffe7bd;
+  }
+
+  /* Member-specific overrides */
+  .dominique {
+  background-color: #fff8e5;
+  border-left-color: #f7a623;
+}
+.dominique:hover {
+  background-color: #e0941f; /* darker orange */
+}
+
+.gracie {
+  background-color: #f3ffe8;
+  border-left-color: #8BC34A;
+}
+.gracie:hover {
+  background-color: #6fa63a; /* darker green */
+}
+
+.gloria {
+  background-color: #eaf3ff;
+  border-left-color: #1E90FF;
+}
+.gloria:hover {
+  background-color: #166fcb; /* darker blue */
+}
+
+.oliver {
+  background-color: #FFF0F0;     /* light red background */
+  border-left-color: #E57373;    /* red strip */
+}
+
+.oliver:hover {
+  background-color: #d45b5b;     /* darker red hover */
+}
+</style>
+
 </head>
 
 <body>
 
   <h1>2. Views and Critiques</h1>
 
-  <a class="member-card" href="dominique.html">Dominique Chen</a>
-  <a class="member-card" href="gracie.html">Gracie Shao</a>
-  <a class="member-card" href="gloria.html">Gloria Li</a>
-  <a class="member-card" href="oliver.html">Oliver Huang</a>
+<a class="member-card dominique" href="dominique.html">Dominique Chen</a>
+<a class="member-card gracie" href="gracie.html">Gracie Shao</a>
+<a class="member-card gloria" href="gloria.html">Gloria Li</a>
+<a class="member-card oliver" href="oliver.html">Oliver Huang</a>
+
 
 </body>
 </html>
