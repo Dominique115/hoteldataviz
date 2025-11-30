@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Dominique Chen – Views & Critiques</title>
+  <title>Gracie Shao – Views & Critiques</title>
 
   <style>
     body {
@@ -14,24 +14,27 @@
       color: #1476d1;
     }
   </style>
+  <style>
+        .chart-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+  </style>
+
 </head>
 
 <body>
 
-  <h1>Gracie Shao – Views and Critiques</h1>
-
-  <p>Place your introduction or description here.</p>
-
-  <h2>Example Chart</h2>
-
-  <!-- REPLACE this with your actual chart HTML file -->
-  <iframe src="gracie_chart1.html"
-          width="900" height="600" style="border:none;">
-  </iframe>
-
-  <br><br>
-
-  <a href="index.html">← Back to main page</a>
-
-</body>
-</html>
+  <h1>Gracie Shao – How Does Customer Behavior Varied Across Countries</h1>
+  <p>Notes for visualization: Deeper color in the map meaning a higher cancellation rate. Black areas meaning there is no data for the regarding country in our dataset. 
+    While hover through the map, users can see the detail information of the country name and it's corresponding country code. When you click a certain country, 
+    the line chart that below shows the cancellation rate across month for that country. The user can click the hotel type legend to select a certian hotel type. 
+    The user can use the drop down menu to select different seasons or include all seasons. Users can use the search bar to search for a specific country that they would love to look at. </p>
+ <h2>View1</h2>
+    <div class="chart-container">
+        <iframe src="gracie_view1.html" 
+                style="width: 95%; height: 950px; border: none; "
+                scrolling="no">
+        </iframe>
+    </div>
