@@ -1,37 +1,138 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Dominique Chen – Views & Critiques</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gloria – Views & Critiques</title>
 
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      margin: 40px;
-      line-height: 1.6;
+    :root{
+      --accent:#1476d1;
+      --muted:#666;
+      --maxwidth:1200px;
+      --page-padding:36px;
+      --frame-height-lg:950px;
+      --frame-height-md:900px;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #111;
+      background: #fff;
+    }
+    .page {
+      max-width: var(--maxwidth);
+      margin: 28px auto;
+      padding: var(--page-padding);
+    }
+    h1 {
+      font-size: 32px;
+      margin: 0 0 8px 0;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 28px 0 6px;
+    }
+    p.lead {
+      margin: 6px 0 18px;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 85ch;
+    }
+    .chart-container {
+      width: 100%;
+      margin: 18px 0 36px;
+      display: flex;
+      justify-content: center;
+    }
+    .chart-wrapper {
+      width: 100%;
+      border-radius: 8px;
+      background: #fbfbfb;
+      padding: 12px;
+      box-shadow: 0 6px 20px rgba(20,20,20,0.04);
+    }
+    iframe {
+      width: 100%;
+      height: var(--frame-height-lg);
+      border: none;
+      display:block;
+      border-radius: 6px;
+    }
+    .meta {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    ul {
+      margin: 8px 0 18px 20px;
+    }
+    .small-note {
+      font-size: 13px;
+      color: #444;
+      margin-top: 8px;
     }
     a {
-      color: #1476d1;
+      color: var(--accent);
+    }
+    .back {
+      display:inline-block;
+      margin-top: 12px;
+    }
+    /* Responsive */
+    @media (max-width: 900px){
+      :root{ --frame-height-lg: 760px; }
+      h1 { font-size: 26px; }
+      .page { padding: 18px; }
     }
   </style>
 </head>
 
 <body>
+  <div class="page">
+    <h1>Gloria — Views & Critiques</h1>
+    <p class="lead">
+      This page embeds two exported dashboards created from the hotel bookings dataset.
+      If an embedded visualization doesn’t load immediately, try refreshing the page or opening the embedded file directly.
+    </p>
 
-  <h1>Gloria Li – Views and Critiques</h1>
+    <!-- VIEW 1 -->
+    <h2>View 1: Lead Time Behaviour &amp; Cancellation Dynamics</h2>
+    <p class="meta"><strong>Overview:</strong> This section explores the relationship between lead time (the time between booking and arrival) and cancellation dynamics within the hotel industry. By analyzing this data, hotel managers can identify patterns that may influence booking decisions and cancellation rates.</p>
 
-  <p>Place your introduction or description here.</p>
+    <div class="chart-container">
+      <div class="chart-wrapper">
+        <div class="small-note">
+          Embedded file: <code>gloria_view1.html</code> — contains Viz 1.1 (Lead Time density by hotel + cancellations), Viz 1.2 (cancellation rate vs binned lead time with CI), and Viz 1.3 (cancellation heatmap filtered by lead-time brush).
+        </div>
+        <iframe src="gloria_view1.html" scrolling="no" title="View 1 – Lead Time Behaviour & Cancellation Dynamics"></iframe>
+      </div>
+    </div>
 
-  <h2>Example Chart</h2>
+    <!-- VIEW 2 -->
+    <h2>View 2: Guest Segmentation &amp; Service Requirements Analysis</h2>
+    <p class="meta"><strong>Overview:</strong> This view segments hotel guests into meaningful groups based on their travel composition, booking patterns, and service requirements. Understanding these segments helps hotels tailor their services, optimize pricing strategies, and allocate resources effectively to meet guest needs while maximizing revenue.</p>
 
-  <!-- REPLACE this with your actual chart HTML file -->
-  <iframe src="gloria_chart1.html"
-          width="900" height="600" style="border:none;">
-  </iframe>
+    <div class="chart-container">
+      <div class="chart-wrapper">
+        <div class="small-note">
+          Embedded file: <code>gloria_view2.html</code> — contains Viz 2.1 (guest stay composition heatmap + special requests bubble chart) and Viz 2.2 (violin/matrix/cancellation linked analysis).
+        </div>
+        <iframe src="gloria_view2.html" scrolling="no" title="View 2 – Guest Segmentation & Service Requirements Analysis"></iframe>
+      </div>
+    </div>
 
-  <br><br>
+    <p class="small-note">
+      Notes:
+      <ul>
+        <li>Keep the three files (<code>gloria_index.html</code> or this file, <code>gloria_view1.html</code>, <code>gloria_view2.html</code>) in the same folder for the <code>iframe</code> embeds to work locally and on GitHub Pages.</li>
+        <li>If you want different iframe heights, edit the CSS variable <code>--frame-height-lg</code> at the top of this document.</li>
+      </ul>
+    </p>
 
-  <a href="index.html">← Back to main page</a>
-
+    <a class="back" href="index.html">← Back to main page</a>
+  </div>
 </body>
 </html>
+
