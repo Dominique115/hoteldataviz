@@ -3,15 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <style>
-    #vis.vega-embed {
-      width: 100%;
-      display: flex;
-    }
+   <style>
+  #vis.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+  #vis.vega-embed details,
+  #vis.vega-embed details summary {
+    position: relative;
+  }
 
-    #vis.vega-embed details,
-    #vis.vega-embed details summary {
-      position: relative;
-    }
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .vega-embed, 
+  .vega-embed > div {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 让 SVG 图表自动缩放 */
+  svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+</style>
+
   </style>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
