@@ -10,9 +10,7 @@
   --accent:#1476d1;
   --muted:#666;
   --maxwidth:1200px;
-  --page-padding:36px;
-  --frame-height-lg:1500px;  /* ADJUSTED */
-  --frame-height-md:1300px;}
+  --page-padding:36px;}
 
     html,body{
       height:100%;
@@ -53,13 +51,16 @@
       padding: 12px;
       box-shadow: 0 6px 20px rgba(20,20,20,0.04);
     }
-    iframe {
-      width: 100%;
-      height: var(--frame-height-lg);
-      border: none;
-      display:block;
-      border-radius: 6px;
-    }
+   iframe {
+  width: 100%;
+  height: auto;
+  min-height: 100vh;     
+  border: none;
+  display: block;
+  border-radius: 6px;
+  overflow: visible;     
+}
+
     .meta {
       font-size: 14px;
       color: var(--muted);
