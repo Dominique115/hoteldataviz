@@ -3,33 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <style>
-   <style>
-  #vis.vega-embed {
+  .vis-container {
     width: 100%;
-    display: flex;
-  }
-  #vis.vega-embed details,
-  #vis.vega-embed details summary {
-    position: relative;
-  }
-
-  body, html {
-    margin: 0;
+    max-width: 1600px;
+    margin: 0 auto;
     padding: 0;
-    overflow-x: hidden;
+    overflow-x: auto; 
   }
-
-  .vega-embed, 
-  .vega-embed > div {
+  .vega-embed {
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: none !important;
   }
-  svg {
-    max-width: 100% !important;
-    height: auto !important;
+  .vega-embed canvas,
+  .vega-embed svg {
+    width: 100% !important;
   }
-</style>
-
   </style>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
