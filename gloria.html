@@ -1,145 +1,582 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gloria – Views & Critiques</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gloria – Hotel Booking Analytics Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
-      --accent: #1476d1;
-      --muted: #666;
-      --maxwidth: 1200px;
-      --page-padding: 36px;
+      --primary: #4a6fa5;
+      --primary-light: #e8efff;
+      --secondary: #8a6bc4;
+      --accent: #ff7e5f;
+      --dark: #2c3e50;
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --gray-light: #e9ecef;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+      --max-width: 1200px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     html, body {
       height: 100%;
-      margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      color: #111;
-      background: #fff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--dark);
+      background-color: var(--light);
+      line-height: 1.6;
     }
 
-    .page {
-      max-width: var(--maxwidth);
-      margin: 28px auto;
-      padding: var(--page-padding);
+    .page-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 30px;
+      padding-top: 0;
     }
 
-    h1 {
-      font-size: 32px;
-      margin: 0 0 8px 0;
+    /* Header */
+    .header {
+      padding: 40px 0 20px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--gray-light);
+      background-color: var(--white);
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    h2 {
-      font-size: 20px;
-      margin: 28px 0 6px;
+    .header-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 30px;
     }
 
-    p.lead {
-      margin: 6px 0 18px;
-      color: var(--muted);
-      line-height: 1.55;
-      max-width: 85ch;
+    .site-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .site-subtitle {
+      font-size: 1.1rem;
+      color: var(--gray);
+      font-weight: 400;
+      max-width: 800px;
+      margin-bottom: 20px;
+    }
+
+    .lead {
+      font-size: 1.05rem;
+      color: var(--dark);
+      background-color: var(--primary-light);
+      padding: 20px;
+      border-radius: var(--radius);
+      border-left: 4px solid var(--primary);
+      margin: 30px 0;
+      line-height: 1.7;
+    }
+
+    /* Dashboard Cards */
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .dashboard-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--gray-light);
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      padding: 24px 30px;
+      background-color: var(--primary);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-header.view2 {
+      background-color: var(--secondary);
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+
+    .card-badge {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .card-content {
+      padding: 30px;
+    }
+
+    .card-description {
+      font-size: 1.05rem;
+      color: var(--dark);
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    .card-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .highlight {
+      background-color: var(--gray-light);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .highlight i {
+      color: var(--primary);
     }
 
     .chart-wrapper {
       width: 100%;
-      max-width: var(--maxwidth);
-      border-radius: 8px;
-      background: #fbfbfb;
-      padding: 12px;
-      box-shadow: 0 6px 20px rgba(20,20,20,0.04);
-      margin-bottom: 36px;
+      border-radius: 10px;
+      background: var(--light);
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid var(--gray-light);
     }
 
     iframe {
       width: 100%;
       border: none;
       display: block;
-      border-radius: 6px;
+      background-color: var(--white);
     }
 
-    /* 不同视图可设置不同高度 */
     iframe.view1 { height: 2000px; }
     iframe.view2 { height: 1500px; }
 
-    .meta {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 8px;
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background-color: var(--light);
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 0.9rem;
     }
 
-    ul {
-      margin: 8px 0 18px 20px;
+    .file-info i {
+      color: var(--primary);
     }
 
-    .small-note {
-      font-size: 13px;
-      color: #444;
-      margin-bottom: 8px;
+    code {
+      background-color: var(--gray-light);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--dark);
     }
 
-    a {
+    /* Footer & Notes */
+    .notes-section {
+      background-color: var(--white);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-light);
+      margin-bottom: 40px;
+    }
+
+    .notes-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .notes-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .notes-list li {
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--gray-light);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .notes-list li:last-child {
+      border-bottom: none;
+    }
+
+    .notes-list i {
       color: var(--accent);
+      margin-top: 3px;
     }
 
-    .back {
-      display:inline-block;
-      margin-top: 12px;
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 10px;
     }
 
-    /* Responsive */
-    @media (max-width: 900px) {
-      h1 { font-size: 26px; }
-      .page { padding: 18px; }
-      iframe.view1, iframe.view2 { height: 1200px; }
+    .back-button:hover {
+      background-color: var(--dark);
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px 0;
+      color: var(--gray);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--gray-light);
+      margin-top: 40px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .page-container {
+        padding: 20px;
+      }
+      
+      .header-content {
+        padding: 0 20px;
+      }
+      
+      .site-title {
+        font-size: 2.2rem;
+      }
+      
+      .dashboard-container {
+        gap: 30px;
+      }
+      
+      iframe.view1, iframe.view2 {
+        height: 1200px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .site-title {
+        font-size: 1.8rem;
+      }
+      
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .card-title {
+        font-size: 1.4rem;
+      }
+      
+      .card-content {
+        padding: 20px;
+      }
+      
+      iframe.view1, iframe.view2 {
+        height: 800px;
+      }
+      
+      .card-highlights {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .page-container {
+        padding: 15px;
+      }
+      
+      .header {
+        padding: 30px 0 15px;
+      }
+      
+      .header-content {
+        padding: 0 15px;
+      }
+      
+      .site-title {
+        font-size: 1.6rem;
+      }
+      
+      .lead {
+        padding: 15px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
-    <h1>Gloria — Views & Critiques</h1>
-    <p class="lead">
-      This page embeds two exported dashboards created from the hotel bookings dataset.
-      If an embedded visualization doesn’t load immediately, try refreshing the page or opening the embedded file directly.
-    </p>
-
-    <!-- VIEW 1 -->
-    <h2>View 1: Lead Time Behaviour &amp; Cancellation Dynamics</h2>
-    <p class="meta">
-      <strong>Overview:</strong> This section explores the relationship between lead time (the time between booking and arrival) and cancellation dynamics within the hotel industry. By analyzing this data, hotel managers can identify patterns that may influence booking decisions and cancellation rates.
-    </p>
-    <div class="chart-wrapper">
-      <div class="small-note">
-        Embedded file: <code>gloria_View1.html</code> — contains Viz 1.1 (Lead Time density by hotel + cancellations), Viz 1.2 (cancellation rate vs binned lead time with CI), and Viz 1.3 (cancellation heatmap filtered by lead-time brush).
-      </div>
-      <iframe class="view1" src="gloria_View1.html" scrolling="yes" title="View 1 – Lead Time Behaviour & Cancellation Dynamics"></iframe>
+  <div class="header">
+    <div class="header-content">
+      <h1 class="site-title">
+        <i class="fas fa-chart-line"></i> Gloria — Hotel Booking Analytics
+      </h1>
+      <p class="site-subtitle">
+        Interactive dashboards exploring hotel booking patterns, cancellation dynamics, and guest segmentation
+      </p>
     </div>
-
-    <!-- VIEW 2 -->
-    <h2>View 2: Guest Segmentation &amp; Service Requirements Analysis</h2>
-    <p class="meta">
-      <strong>Overview:</strong> This view segments hotel guests into meaningful groups based on their travel composition, booking patterns, and service requirements. Understanding these segments helps hotels tailor their services, optimize pricing strategies, and allocate resources effectively to meet guest needs while maximizing revenue.
-    </p>
-    <div class="chart-wrapper">
-      <div class="small-note">
-        Embedded file: <code>gloria_view2.html</code> — contains Viz 2.1 (guest stay composition heatmap + special requests bubble chart) and Viz 2.2 (violin/matrix/cancellation linked analysis).
-      </div>
-      <iframe class="view2" src="gloria_view2.html" scrolling="yes" title="View 2 – Guest Segmentation & Service Requirements Analysis"></iframe>
-    </div>
-
-    <p class="small-note">
-      Notes:
-      <ul>
-        <li>Keep the three files (<code>gloria_index.html</code>, <code>gloria_view1.html</code>, <code>gloria_view2.html</code>) in the same folder for the <code>iframe</code> embeds to work locally and on GitHub Pages.</li>
-        <li>If you want different iframe heights, edit the CSS classes <code>.view1</code> and <code>.view2</code>.</li>
-      </ul>
-    </p>
-
-    <a class="back" href="index.html">← Back to main page</a>
   </div>
+
+  <div class="page-container">
+    <div class="lead">
+      <p><strong>Welcome to the Hotel Booking Analytics Dashboard.</strong> This page contains two interactive visualizations created from hotel booking data. Each dashboard provides insights that can help hotel managers optimize pricing, reduce cancellations, and improve guest satisfaction.</p>
+      <p style="margin-top: 10px; font-size: 0.95rem;">If a visualization doesn't load immediately, try refreshing the page or click the file link below each dashboard to open it directly.</p>
+    </div>
+
+    <div class="dashboard-container">
+      <!-- VIEW 1 -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <i class="fas fa-calendar-alt card-icon"></i> Lead Time & Cancellation Analysis
+            </h2>
+            <p class="card-subtitle">Understanding booking patterns and cancellation drivers</p>
+          </div>
+          <span class="card-badge">3 Visualizations</span>
+        </div>
+        
+        <div class="card-content">
+          <p class="card-description">
+            This dashboard explores the relationship between lead time (time between booking and arrival) and cancellation rates. By analyzing these patterns, hotel managers can identify high-risk booking periods and adjust policies to minimize cancellations.
+          </p>
+          
+          <div class="card-highlights">
+            <div class="highlight">
+              <i class="fas fa-chart-area"></i>
+              <span>Lead time density by hotel type</span>
+            </div>
+            <div class="highlight">
+              <i class="fas fa-percentage"></i>
+              <span>Cancellation rate vs. lead time with confidence intervals</span>
+            </div>
+            <div class="highlight">
+              <i class="fas fa-fire"></i>
+              <span>Cancellation heatmap filtered by lead time</span>
+            </div>
+          </div>
+          
+          <div class="file-info">
+            <i class="fas fa-file-code"></i>
+            <span>Embedded file: <code>gloria_View1.html</code></span>
+          </div>
+          
+          <div class="chart-wrapper">
+            <iframe class="view1" src="gloria_View1.html" scrolling="yes" title="View 1 – Lead Time Behaviour & Cancellation Dynamics"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2 -->
+      <div class="dashboard-card">
+        <div class="card-header view2">
+          <div>
+            <h2 class="card-title">
+              <i class="fas fa-users card-icon"></i> Guest Segmentation & Service Analysis
+            </h2>
+            <p class="card-subtitle">Identifying guest groups and their service requirements</p>
+          </div>
+          <span class="card-badge">2 Visualizations</span>
+        </div>
+        
+        <div class="card-content">
+          <p class="card-description">
+            This view segments hotel guests based on travel composition, booking patterns, and service requirements. Understanding these segments helps hotels tailor services, optimize pricing strategies, and allocate resources effectively to enhance guest satisfaction.
+          </p>
+          
+          <div class="card-highlights">
+            <div class="highlight">
+              <i class="fas fa-layer-group"></i>
+              <span>Guest stay composition heatmap</span>
+            </div>
+            <div class="highlight">
+              <i class="fas fa-comment-alt"></i>
+              <span>Special requests bubble chart</span>
+            </div>
+            <div class="highlight">
+              <i class="fas fa-chart-bar"></i>
+              <span>Violin/matrix cancellation analysis</span>
+            </div>
+          </div>
+          
+          <div class="file-info">
+            <i class="fas fa-file-code"></i>
+            <span>Embedded file: <code>gloria_view2.html</code></span>
+          </div>
+          
+          <div class="chart-wrapper">
+            <iframe class="view2" src="gloria_view2.html" scrolling="yes" title="View 2 – Guest Segmentation & Service Requirements Analysis"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes-section">
+      <h3 class="notes-title">
+        <i class="fas fa-info-circle"></i> Important Notes & Instructions
+      </h3>
+      <ul class="notes-list">
+        <li>
+          <i class="fas fa-folder"></i>
+          <span>Keep all three HTML files (<code>gloria_index.html</code>, <code>gloria_view1.html</code>, <code>gloria_view2.html</code>) in the same folder for the embedded visualizations to work properly.</span>
+        </li>
+        <li>
+          <i class="fas fa-desktop"></i>
+          <span>For local viewing, some browsers may restrict iframe loading. If visualizations don't appear, try running a local server or adjust your browser security settings.</span>
+        </li>
+        <li>
+          <i class="fas fa-expand-alt"></i>
+          <span>To adjust the iframe height for better viewing, modify the CSS classes <code>.view1</code> and <code>.view2</code> in the style section.</span>
+        </li>
+        <li>
+          <i class="fas fa-mobile-alt"></i>
+          <span>These dashboards are responsive and should work on mobile devices, though complex visualizations are best viewed on larger screens.</span>
+        </li>
+      </ul>
+    </div>
+
+    <a class="back-button" href="index.html">
+      <i class="fas fa-arrow-left"></i> Back to Main Page
+    </a>
+
+    <div class="footer">
+      <p>Hotel Booking Analytics Dashboard • Created with Tableau/Power BI/Other Visualization Tool</p>
+      <p style="margin-top: 5px; font-size: 0.85rem;">For optimal viewing experience, use Chrome, Firefox, or Edge browser</p>
+    </div>
+  </div>
+
+  <script>
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Add a subtle animation to dashboard cards when they come into view
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Apply to dashboard cards
+    document.querySelectorAll('.dashboard-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(card);
+    });
+
+    // If iframe fails to load, show a helpful message
+    document.querySelectorAll('iframe').forEach(iframe => {
+      iframe.addEventListener('error', function() {
+        const wrapper = this.parentElement;
+        const errorDiv = document.createElement('div');
+        errorDiv.innerHTML = `
+          <div style="padding: 30px; text-align: center; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; color: #856404;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px;"></i>
+            <h3>Visualization Failed to Load</h3>
+            <p>The embedded visualization could not be loaded. Please check that:</p>
+            <ul style="text-align: left; max-width: 500px; margin: 15px auto;">
+              <li>The file <code>${this.src}</code> exists in the same folder</li>
+              <li>Your browser allows iframes from local files</li>
+              <li>You have an active internet connection (if loading external resources)</li>
+            </ul>
+            <a href="${this.src}" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #4a6fa5; color: white; text-decoration: none; border-radius: 5px;">Open Visualization Directly</a>
+          </div>
+        `;
+        wrapper.appendChild(errorDiv);
+      });
+    });
+  </script>
 </body>
 </html>
