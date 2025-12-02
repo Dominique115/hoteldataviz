@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Constellation - Novel Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(90deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto 25px;
+        }
+        
+        .visualization-container {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Constellation styling */
+        #constellation {
+            width: 100%;
+            height: 700px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 15px currentColor;
+            animation: pulse 3s infinite alternate;
+        }
+        
+        .star:hover {
+            transform: scale(1.3);
+            z-index: 100;
+            box-shadow: 0 0 30px currentColor;
+        }
+        
+        .connection {
+            position: absolute;
+            height: 2px;
+            opacity: 0.3;
+            transform-origin: 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .connection:hover {
+            opacity: 0.8;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 10px;
+        }
+        
+        .legend-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        .process-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .process-card {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+        
+        .process-card h3 {
+            color: #60a5fa;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sketch-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .sketch {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #475569;
+            text-align: center;
+        }
+        
+        .sketch img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .reflection {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+            border-left: 5px solid #60a5fa;
+        }
+        
+        .reflection h3 {
+            color: #c084fc;
+            margin-bottom: 20px;
+        }
+        
+        .reflection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .reflection-item {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .reflection-item h4 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid #60a5fa;
+            border-radius: 10px;
+            padding: 15px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            min-width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tooltip-header {
+            color: #c084fc;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .attribute {
+            color: #94a3b8;
+        }
+        
+        .value {
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .process-section { grid-template-columns: 1fr; }
+            .sketch-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The Guest Constellation</h1>
+            <p class="subtitle">A novel visualization mapping hotel guest segments as celestial bodies, where their characteristics create a unique cosmic pattern that reveals hidden behavioral clusters.</p>
+        </div>
+        
+        <div class="visualization-container">
+            <div id="constellation">
+                <!-- Constellation will be generated by JavaScript -->
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #60a5fa; color: #60a5fa;"></div>
+                    <span>Business Travelers</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #10b981; color: #10b981;"></div>
+                    <span>Family Vacationers</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f59e0b; color: #f59e0b;"></div>
+                    <span>Romantic Getaways</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #ec4899; color: #ec4899;"></div>
+                    <span>Last-Minute Bookers</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #8b5cf6; color: #8b5cf6;"></div>
+                    <span>Loyalty Members</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="process-section">
+            <div class="process-card">
+                <h3>📐 Design Process & Iterations</h3>
+                <p>The visualization evolved through three key iterations:</p>
+                <div class="sketch-container">
+                    <div class="sketch">
+                        <h4>Iteration 1: Radial Cluster Map</h4>
+                        <div style="width:100%;height:150px;background:linear-gradient(135deg,#1e40af,#1d4ed8);border-radius:8px;display:flex;justify-content:center;align-items:center;color:white;font-weight:bold;">
+                            Radial Layout
+                        </div>
+                        <p>Traditional circular layout with guest segments in rings</p>
+                    </div>
+                    <div class="sketch">
+                        <h4>Iteration 2: Temporal Flow River</h4>
+                        <div style="width:100%;height:150px;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:8px;display:flex;justify-content:center;align-items:center;color:white;font-weight:bold;">
+                            Flow Diagram
+                        </div>
+                        <p>Timeline-based flow showing guest journey through hotel stay</p>
+                    </div>
+                    <div class="sketch">
+                        <h4>Iteration 3: Behavioral Terrain Map</h4>
+                        <div style="width:100%;height:150px;background:linear-gradient(45deg,#0d9488,#14b8a6);border-radius:8px;display:flex;justify-content:center;align-items:center;color:white;font-weight:bold;">
+                            3D Terrain
+                        </div>
+                        <p>Topographical map with peaks representing high-value segments</p>
+                    </div>
+                    <div class="sketch">
+                        <h4>Final: Guest Constellation</h4>
+                        <div style="width:100%;height:150px;background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:8px;display:flex;justify-content:center;align-items:center;color:#60a5fa;font-weight:bold;border:2px solid #60a5fa;">
+                            ★ Constellation ★
+                        </div>
+                        <p>Celestial metaphor with guests as stars in behavioral space</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-card">
+                <h3>🎨 Design Principles & Rule-Breaking</h3>
+                <div style="margin-top: 20px;">
+                    <h4 style="color:#10b981;margin-bottom:10px;">Traditional Rules We Bent:</h4>
+                    <ul style="padding-left:20px;margin-bottom:20px;line-height:1.8;">
+                        <li><strong>Color Semantics:</strong> Used color for aesthetic harmony rather than categorical distinction</li>
+                        <li><strong>Data-Ink Ratio:</strong> Embraced decorative elements (glows, animations) over minimalism</li>
+                        <li><strong>Immediate Readability:</strong> Prioritized exploration over instant comprehension</li>
+                        <li><strong>2D Representation:</strong> Created pseudo-3D space through layering and glow effects</li>
+                    </ul>
+                    
+                    <h4 style="color:#f59e0b;margin-bottom:10px;">Novel Color Usage:</h4>
+                    <p>Colors represent <strong>emotional resonance</strong> rather than data categories:</p>
+                    <ul style="padding-left:20px;line-height:1.8;">
+                        <li><span style="color:#60a5fa">● Blue:</span> Calm, business-like efficiency</li>
+                        <li><span style="color:#10b981">● Green:</span> Family-friendly, nurturing</li>
+                        <li><span style="color:#f59e0b">● Yellow:</span> Romantic, warm experiences</li>
+                        <li><span style="color:#ec4899">● Pink:</span> Spontaneous, impulsive decisions</li>
+                        <li><span style="color:#8b5cf6">● Purple:</span> Loyalty, premium experiences</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="reflection">
+            <h3>🔮 Reflection & Intent</h3>
+            <div class="reflection-grid">
+                <div class="reflection-item">
+                    <h4>What We Aimed For</h4>
+                    <p>To create an <strong>emotional connection</strong> with hotel guest data, transforming dry statistics into a captivating cosmic narrative. We wanted managers to feel they're exploring a universe of guest possibilities rather than analyzing spreadsheets.</p>
+                </div>
+                
+                <div class="reflection-item">
+                    <h4>Design Rules We Broke</h4>
+                    <p>We intentionally violated Tufte's data-ink ratio principle, embracing decorative elements to create visual delight. We used <strong>non-semantic color coding</strong> and prioritized aesthetic harmony over immediate data readability, asking viewers to explore rather than simply consume.</p>
+                </div>
+                
+                <div class="reflection-item">
+                    <h4>Intended Audience</h4>
+                    <p>Hotel <strong>marketing teams</strong> and <strong>executive leadership</strong> who need to develop an intuitive, emotional understanding of their guest segments for strategic planning and brand development, not just operational optimization.</p>
+                </div>
+                
+                <div class="reflection-item">
+                    <h4>Data Attributes Encoded</h4>
+                    <p><strong>✓ 7 Attributes Total:</strong><br>
+                    1. Guest Segment (Star Position)<br>
+                    2. Revenue Potential (Star Size)<br>
+                    3. Cancellation Risk (Star Pulse Speed)<br>
+                    4. Service Requirements (Connection Lines)<br>
+                    5. Booking Lead Time (Orbital Distance)<br>
+                    6. Stay Duration (Ring Count)<br>
+                    7. Special Requests (Aura Effect)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tooltip for star details -->
+    <div class="tooltip" id="starTooltip"></div>
+    
+    <script>
+        // Generate the constellation visualization
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('constellation');
+            const tooltip = document.getElementById('starTooltip');
+            
+            // Guest segment data - each represents a different guest type
+            const guestSegments = [
+                { name: "Corporate Executive", type: "business", x: 30, y: 40, size: 28, 
+                  revenue: 850, cancellation: 0.15, leadTime: 7, stayDuration: 2, requests: 3 },
+                { name: "Weekend Family", type: "family", x: 70, y: 25, size: 32, 
+                  revenue: 1200, cancellation: 0.08, leadTime: 14, stayDuration: 4, requests: 5 },
+                { name: "Honeymoon Couple", type: "romantic", x: 50, y: 70, size: 24, 
+                  revenue: 1800, cancellation: 0.03, leadTime: 90, stayDuration: 7, requests: 8 },
+                { name: "Last-Minute Booker", type: "lastMinute", x: 20, y: 75, size: 20, 
+                  revenue: 650, cancellation: 0.35, leadTime: 1, stayDuration: 2, requests: 1 },
+                { name: "Loyalty Platinum", type: "loyalty", x: 80, y: 60, size: 35, 
+                  revenue: 1500, cancellation: 0.05, leadTime: 21, stayDuration: 5, requests: 4 },
+                { name: "Conference Attendee", type: "business", x: 40, y: 20, size: 26, 
+                  revenue: 950, cancellation: 0.12, leadTime: 30, stayDuration: 3, requests: 2 },
+                { name: "Extended Family", type: "family", x: 75, y: 80, size: 30, 
+                  revenue: 2200, cancellation: 0.10, leadTime: 60, stayDuration: 10, requests: 7 },
+                { name: "Anniversary Couple", type: "romantic", x: 25, y: 55, size: 22, 
+                  revenue: 1600, cancellation: 0.04, leadTime: 45, stayDuration: 4, requests: 6 },
+                { name: "Spontaneous Getaway", type: "lastMinute", x: 65, y: 40, size: 18, 
+                  revenue: 550, cancellation: 0.40, leadTime: 2, stayDuration: 2, requests: 1 },
+                { name: "Loyalty Gold", type: "loyalty", x: 55, y: 35, size: 27, 
+                  revenue: 1100, cancellation: 0.08, leadTime: 14, stayDuration: 4, requests: 3 }
+            ];
+            
+            // Color mapping for guest types
+            const typeColors = {
+                business: "#60a5fa",
+                family: "#10b981",
+                romantic: "#f59e0b",
+                lastMinute: "#ec4899",
+                loyalty: "#8b5cf6"
+            };
+            
+            // Create stars
+            guestSegments.forEach(guest => {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Calculate position percentages
+                const left = guest.x;
+                const top = guest.y;
+                
+                // Size based on revenue
+                const size = guest.size;
+                
+                // Color based on type
+                const color = typeColors[guest.type];
+                
+                // Apply styles
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.backgroundColor = color;
+                star.style.color = color;
+                
+                // Create rings around star for stay duration
+                for (let i = 1; i <= guest.stayDuration; i++) {
+                    const ring = document.createElement('div');
+                    ring.style.position = 'absolute';
+                    ring.style.left = '50%';
+                    ring.style.top = '50%';
+                    ring.style.width = `${size + (i * 15)}px`;
+                    ring.style.height = `${size + (i * 15)}px`;
+                    ring.style.border = `1px solid ${color}`;
+                    ring.style.borderRadius = '50%';
+                    ring.style.transform = 'translate(-50%, -50%)';
+                    ring.style.opacity = 0.2 - (i * 0.03);
+                    star.appendChild(ring);
+                }
+                
+                // Add pulse animation speed based on cancellation risk
+                const pulseSpeed = 2 + (guest.cancellation * 10);
+                star.style.animationDuration = `${pulseSpeed}s`;
+                
+                // Add hover event for tooltip
+                star.addEventListener('mouseenter', function(e) {
+                    // Show tooltip
+                    tooltip.style.opacity = '1';
+                    tooltip.style.left = `${e.pageX + 15}px`;
+                    tooltip.style.top = `${e.pageY + 15}px`;
+                    
+                    // Populate tooltip content
+                    tooltip.innerHTML = `
+                        <div class="tooltip-header">${guest.name}</div>
+                        <div class="tooltip-row">
+                            <span class="attribute">Revenue Potential:</span>
+                            <span class="value">$${guest.revenue}/stay</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="attribute">Cancellation Risk:</span>
+                            <span class="value">${(guest.cancellation * 100).toFixed(0)}%</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="attribute">Avg Lead Time:</span>
+                            <span class="value">${guest.leadTime} days</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="attribute">Stay Duration:</span>
+                            <span class="value">${guest.stayDuration} nights</span>
+                        </div>
+                        <div class="tooltip-row">
+                            <span class="attribute">Special Requests:</span>
+                            <span class="value">${guest.requests} avg</span>
+                        </div>
+                    `;
+                });
+                
+                star.addEventListener('mousemove', function(e) {
+                    tooltip.style.left = `${e.pageX + 15}px`;
+                    tooltip.style.top = `${e.pageY + 15}px`;
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    tooltip.style.opacity = '0';
+                });
+                
+                container.appendChild(star);
+            });
+            
+            // Create connections between related segments
+            const connections = [
+                { from: 0, to: 5 }, // Business to Conference
+                { from: 1, to: 6 }, // Family to Extended Family
+                { from: 2, to: 7 }, // Romantic to Anniversary
+                { from: 3, to: 8 }, // Last-minute to Spontaneous
+                { from: 4, to: 9 }, // Loyalty tiers
+                { from: 0, to: 9 }, // Business to Loyalty
+                { from: 2, to: 4 }, // Romantic to Loyalty
+                { from: 1, to: 9 }, // Family to Loyalty
+            ];
+            
+            connections.forEach(conn => {
+                const fromGuest = guestSegments[conn.from];
+                const toGuest = guestSegments[conn.to];
+                
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                
+                // Calculate line position and angle
+                const x1 = fromGuest.x;
+                const y1 = fromGuest.y;
+                const x2 = toGuest.x;
+                const y2 = toGuest.y;
+                
+                const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                
+                // Position at first point
+                connection.style.left = `${x1}%`;
+                connection.style.top = `${y1}%`;
+                connection.style.width = `${length}%`;
+                connection.style.transform = `rotate(${angle}deg)`;
+                
+                // Color based on types
+                const fromColor = typeColors[fromGuest.type];
+                const toColor = typeColors[toGuest.type];
+                
+                // Create gradient for connection
+                connection.style.background = `linear-gradient(to right, ${fromColor}, ${toColor})`;
+                
+                container.appendChild(connection);
+            });
+            
+            // Add some random smaller stars for background effect
+            for (let i = 0; i < 50; i++) {
+                const bgStar = document.createElement('div');
+                bgStar.style.position = 'absolute';
+                bgStar.style.left = `${Math.random() * 100}%`;
+                bgStar.style.top = `${Math.random() * 100}%`;
+                bgStar.style.width = `${Math.random() * 5 + 2}px`;
+                bgStar.style.height = bgStar.style.width;
+                bgStar.style.backgroundColor = '#e2e8f0';
+                bgStar.style.borderRadius = '50%';
+                bgStar.style.opacity = Math.random() * 0.5 + 0.2;
+                bgStar.style.boxShadow = '0 0 4px white';
+                container.appendChild(bgStar);
+            }
+        });
+    </script>
+</body>
+</html>
