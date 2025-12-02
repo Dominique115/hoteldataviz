@@ -6,81 +6,95 @@
   <title>Gloria – Views & Critiques</title>
 
   <style>
-   :root{
-  --accent:#1476d1;
-  --muted:#666;
-  --maxwidth:1200px;
-  --page-padding:36px;}
+    :root {
+      --accent: #1476d1;
+      --muted: #666;
+      --maxwidth: 1200px;
+      --page-padding: 36px;
+    }
 
-    html,body{
-      height:100%;
-      margin:0;
+    html, body {
+      height: 100%;
+      margin: 0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       color: #111;
       background: #fff;
     }
+
     .page {
       max-width: var(--maxwidth);
       margin: 28px auto;
       padding: var(--page-padding);
     }
+
     h1 {
       font-size: 32px;
       margin: 0 0 8px 0;
     }
+
     h2 {
       font-size: 20px;
       margin: 28px 0 6px;
     }
+
     p.lead {
       margin: 6px 0 18px;
       color: var(--muted);
       line-height: 1.55;
       max-width: 85ch;
     }
+
     .chart-wrapper {
-  width: 100%;
-  border-radius: 8px;
-  background: #fbfbfb;
-  padding: 12px;
-  box-shadow: 0 6px 20px rgba(20,20,20,0.04);
-  display: flex;
-  justify-content: center;
-}
-iframe {
-  width: 100%;
-  height: 2000px;      
-  min-height: 100vh;   
-  border: none;
-  display: block;
-  border-radius: 6px;
-  overflow: visible;  
-}
- .meta {
+      width: 100%;
+      max-width: var(--maxwidth);
+      border-radius: 8px;
+      background: #fbfbfb;
+      padding: 12px;
+      box-shadow: 0 6px 20px rgba(20,20,20,0.04);
+      margin-bottom: 36px;
+    }
+
+    iframe {
+      width: 100%;
+      border: none;
+      display: block;
+      border-radius: 6px;
+    }
+
+    /* 不同视图可设置不同高度 */
+    iframe.view1 { height: 2000px; }
+    iframe.view2 { height: 1500px; }
+
+    .meta {
       font-size: 14px;
       color: var(--muted);
       margin-bottom: 8px;
     }
+
     ul {
       margin: 8px 0 18px 20px;
     }
+
     .small-note {
       font-size: 13px;
       color: #444;
-      margin-top: 8px;
+      margin-bottom: 8px;
     }
+
     a {
       color: var(--accent);
     }
+
     .back {
       display:inline-block;
       margin-top: 12px;
     }
+
     /* Responsive */
-    @media (max-width: 900px){
-      :root{ --frame-height-lg: 760px; }
+    @media (max-width: 900px) {
       h1 { font-size: 26px; }
       .page { padding: 18px; }
+      iframe.view1, iframe.view2 { height: 1200px; }
     }
   </style>
 </head>
@@ -95,35 +109,33 @@ iframe {
 
     <!-- VIEW 1 -->
     <h2>View 1: Lead Time Behaviour &amp; Cancellation Dynamics</h2>
-    <p class="meta"><strong>Overview:</strong> This section explores the relationship between lead time (the time between booking and arrival) and cancellation dynamics within the hotel industry. By analyzing this data, hotel managers can identify patterns that may influence booking decisions and cancellation rates.</p>
-
-    <div class="chart-container">
-      <div class="chart-wrapper">
-        <div class="small-note">
-          Embedded file: <code>gloria_View1.html</code> — contains Viz 1.1 (Lead Time density by hotel + cancellations), Viz 1.2 (cancellation rate vs binned lead time with CI), and Viz 1.3 (cancellation heatmap filtered by lead-time brush).
-        </div>
-        <iframe src="gloria_View1.html" scrolling="no" title="View 1 – Lead Time Behaviour & Cancellation Dynamics"></iframe>
+    <p class="meta">
+      <strong>Overview:</strong> This section explores the relationship between lead time (the time between booking and arrival) and cancellation dynamics within the hotel industry. By analyzing this data, hotel managers can identify patterns that may influence booking decisions and cancellation rates.
+    </p>
+    <div class="chart-wrapper">
+      <div class="small-note">
+        Embedded file: <code>gloria_View1.html</code> — contains Viz 1.1 (Lead Time density by hotel + cancellations), Viz 1.2 (cancellation rate vs binned lead time with CI), and Viz 1.3 (cancellation heatmap filtered by lead-time brush).
       </div>
+      <iframe class="view1" src="gloria_View1.html" scrolling="yes" title="View 1 – Lead Time Behaviour & Cancellation Dynamics"></iframe>
     </div>
 
     <!-- VIEW 2 -->
     <h2>View 2: Guest Segmentation &amp; Service Requirements Analysis</h2>
-    <p class="meta"><strong>Overview:</strong> This view segments hotel guests into meaningful groups based on their travel composition, booking patterns, and service requirements. Understanding these segments helps hotels tailor their services, optimize pricing strategies, and allocate resources effectively to meet guest needs while maximizing revenue.</p>
-
-    <div class="chart-container">
-      <div class="chart-wrapper">
-        <div class="small-note">
-          Embedded file: <code>gloria_view2.html</code> — contains Viz 2.1 (guest stay composition heatmap + special requests bubble chart) and Viz 2.2 (violin/matrix/cancellation linked analysis).
-        </div>
-        <iframe src="gloria_view2.html" scrolling="yes" title="View 2 – Guest Segmentation & Service Requirements Analysis"></iframe>
+    <p class="meta">
+      <strong>Overview:</strong> This view segments hotel guests into meaningful groups based on their travel composition, booking patterns, and service requirements. Understanding these segments helps hotels tailor their services, optimize pricing strategies, and allocate resources effectively to meet guest needs while maximizing revenue.
+    </p>
+    <div class="chart-wrapper">
+      <div class="small-note">
+        Embedded file: <code>gloria_view2.html</code> — contains Viz 2.1 (guest stay composition heatmap + special requests bubble chart) and Viz 2.2 (violin/matrix/cancellation linked analysis).
       </div>
+      <iframe class="view2" src="gloria_view2.html" scrolling="yes" title="View 2 – Guest Segmentation & Service Requirements Analysis"></iframe>
     </div>
 
     <p class="small-note">
       Notes:
       <ul>
-        <li>Keep the three files (<code>gloria_index.html</code> or this file, <code>gloria_view1.html</code>, <code>gloria_view2.html</code>) in the same folder for the <code>iframe</code> embeds to work locally and on GitHub Pages.</li>
-        <li>If you want different iframe heights, edit the CSS variable <code>--frame-height-lg</code> at the top of this document.</li>
+        <li>Keep the three files (<code>gloria_index.html</code>, <code>gloria_view1.html</code>, <code>gloria_view2.html</code>) in the same folder for the <code>iframe</code> embeds to work locally and on GitHub Pages.</li>
+        <li>If you want different iframe heights, edit the CSS classes <code>.view1</code> and <code>.view2</code>.</li>
       </ul>
     </p>
 
@@ -131,4 +143,3 @@ iframe {
   </div>
 </body>
 </html>
-
