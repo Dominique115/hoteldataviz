@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Oliver Huang – View 1: Booking Timing and Pricing</title>
+  <title>Oliver Huang – View 2: Payment Commitments & Cancellation Risk</title>
 
   <style>
     :root {
@@ -17,7 +17,7 @@
     }
 
     .page {
-      max-width: 1300px;              /* 稍微加宽，避免图右边被截断 */
+      max-width: 1300px;
       margin: 40px auto;
       padding: 32px 36px 40px;
       background: #ffffff;
@@ -107,7 +107,6 @@
       text-align: center;
     }
 
-    /* 下面详细说明的卡片区域：换字体 + 框框 */
     .sections {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
@@ -125,14 +124,14 @@
     .section-card h3 {
       margin-top: 0;
       margin-bottom: 6px;
-      font-family: "Georgia", "Times New Roman", serif;   /* 小标题用 serif */
+      font-family: "Georgia", "Times New Roman", serif;
       font-size: 1.1rem;
       color: #c55454;
     }
 
     .section-card p,
     .section-card ul {
-      font-family: "Trebuchet MS", system-ui, sans-serif; /* 正文用另一套字体 */
+      font-family: "Trebuchet MS", system-ui, sans-serif;
       font-size: 0.95rem;
       margin-top: 4px;
       margin-bottom: 6px;
@@ -149,7 +148,7 @@
         padding: 20px;
       }
       .chart-container iframe {
-        height: 720px; /* 小屏幕稍微调低高度 */
+        height: 900px;
       }
     }
   </style>
@@ -162,90 +161,97 @@
     <div class="nav">
       <div class="nav-links">
         <a class="nav-link" href="oliver.html">← Back to Oliver overview</a>
-        <a class="nav-link" href="oliver_view2_page.html">Go to View 2 →</a>
+        <a class="nav-link" href="oliver_view1_page.html">Go to View 1 →</a>
         <a class="nav-link" href="index.html">Back to main page</a>
       </div>
     </div>
 
-    <h1>View 1 – Booking Timing and Pricing</h1>
+    <h1>View 2 – Payment Commitments & Cancellation Risk</h1>
     <div class="subtitle-bar"></div>
 
     <p class="note">
-      This view looks at how early guests book (<strong>lead time</strong>) and how much they pay
-      (<strong>ADR</strong>), and how this relationship differs across hotel type, customer type,
-      and distribution channel.
+      This view examines how <strong>pricing</strong>, <strong>payment commitments</strong>
+      (deposit types), and <strong>customer segments</strong> jointly shape
+      <strong>cancellation risk</strong>, with ADR acting as a filter that controls the
+      price range under consideration.
     </p>
 
     <div class="at-a-glance">
       <strong>Analytic question.</strong>
-      Do guests who book earlier tend to pay more or less (ADR), and does this relationship differ
-      by guest type or booking channel?<br><br>
+      How do payment commitments and customer characteristics interact to influence
+      cancellation likelihood?<br><br>
       <strong>Key tasks:</strong>
       <ul>
-        <li>Compare ADR across different lead times and hotel types.</li>
-        <li>See how booking patterns vary across customer types and channels.</li>
-        <li>Use brushing and clicking to focus on specific guest segments.</li>
+        <li>Compare cancellation rates across deposit and customer types.</li>
+        <li>See how risk changes across ADR ranges.</li>
+        <li>Contrast City and Resort hotels using interactive selection.</li>
       </ul>
     </div>
 
-    <!-- 图表放在上面 -->
+    <!-- 图表放上面 -->
     <div class="chart-container">
-      <iframe src="oliver_view1.html"
-              style="width: 100%; height: 900px; border: none; background: #ffffff;"
+      <iframe src="oliver_view2.html"
+              style="width: 100%; height: 1000px; border: none; background: #ffffff;"
               scrolling="no">
       </iframe>
     </div>
 
-    <!-- 简化版详细说明，放在主题色卡片里 -->
+    <!-- 简化后说明卡片 -->
     <div class="sections">
 
       <div class="section-card">
         <h2>Design overview</h2>
-        <p>This view combines four linked components to connect individual bookings with group patterns:</p>
+        <p>This view contains two linked visualizations:</p>
         <ul>
-          <li>Scatter plot of <strong>lead time vs ADR</strong> with brush selection.</li>
-          <li><strong>Trend lines</strong> (one per hotel type) showing overall timing–price trends.</li>
-          <li><strong>Stacked bar chart</strong> of distribution channels within each customer type.</li>
-          <li><strong>Boxplot</strong> of lead time across customer types.</li>
+          <li>
+            <strong>Histogram + cancellation-rate line chart (Vizz1):</strong>
+            ADR is binned on the x-axis. Bars show booking counts, and lines show
+            cancellation rate per bin for each hotel type. ADR sliders and hotel selection
+            control which bookings are included.
+          </li>
+          <li>
+            <strong>Deposit-type × customer-type heatmap (Vizz2):</strong>
+            Each cell shows the mean cancellation rate for a deposit–customer combination,
+            updating to match the current ADR range and hotel selection.
+          </li>
         </ul>
-        <p>Checkboxes for <strong>City Hotel</strong> and <strong>Resort Hotel</strong> act as
-           a global filter across all four components.</p>
       </div>
 
       <div class="section-card">
         <h2>Encodings</h2>
         <p>
-          The scatter plot uses horizontal position for lead time and vertical position for ADR.
-          Color indicates hotel type, and opacity fades non-selected points when brushing or
-          clicking elsewhere in the view.
+          In Vizz1, horizontal position encodes ADR bins and vertical position encodes either
+          booking count (bars) or cancellation rate (lines). Color represents hotel type,
+          and opacity highlights the selected hotel while keeping the other faint.
         </p>
         <p>
-          The bar chart uses bar length for booking counts and color for distribution channels.
-          The boxplot uses vertical position to compare lead time distributions across
-          customer types, showing median and spread.
+          The heatmap relies on color intensity to represent cancellation rate, with position
+          determined by deposit type (x) and customer type (y). A single blue gradient makes
+          low, medium, and high risk easy to compare across cells.
         </p>
       </div>
 
       <div class="section-card">
         <h2>Interactions</h2>
         <ul>
-          <li><strong>Brush on the scatter plot</strong> filters the bar chart to the selected bookings; brushed points stay fully opaque, others fade.</li>
-          <li><strong>Click on bar segments</strong> (e.g., “Transient – Direct”) highlights the corresponding points in the scatter plot while keeping others semi-visible.</li>
-          <li><strong>Hotel-type checkboxes</strong> toggle City vs. Resort hotels everywhere in the view.</li>
+          <li><strong>ADR sliders:</strong> restrict the analysis to bookings within a chosen ADR range; both Vizz1 and Vizz2 recompute based on this subset.</li>
+          <li><strong>Hotel selection:</strong> clicking a bar selects City or Resort hotels; both views filter to that hotel type, and double-click clears the selection.</li>
+          <li><strong>Separate / Combined toggle:</strong> switches between overlaid and stacked bars, supporting comparison of relative vs. absolute frequencies.</li>
         </ul>
-        <p>Together, these create a two-way link between booking-level points and aggregated group views.</p>
+        <p>These interactions support multidimensional filtering across price, hotel type, and guest segment.</p>
       </div>
 
       <div class="section-card">
         <h2>Critique</h2>
         <p>
-          The view works well for seeing both detailed bookings and overall trends. The trend lines help
-          clarify how lead time and ADR relate by hotel type, and the bar chart shows which segments drive
-          most bookings.
+          The combination of histogram, line, and heatmap makes cancellation patterns across
+          price levels and guest segments easy to see. Global filtering through ADR sliders
+          and hotel selection is flexible but still understandable.
         </p>
         <p>
-          Some overplotting remains in the scatter, and the bar chart can be hard to compare when one
-          category dominates. The boxplot adds useful timing context but is only indirectly tied to ADR.
+          However, the view can become dense when many bins or categories are active, and the
+          meaning of “Separate vs. Combined” bars may need a short verbal explanation for
+          first-time users.
         </p>
       </div>
 
