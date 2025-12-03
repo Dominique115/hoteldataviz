@@ -5,39 +5,87 @@
   <title>Oliver Huang – View 2: Payment Commitments & Cancellation Risk</title>
 
   <style>
+    :root {
+      --accent: #E57373;
+      --accent-light: #FFF0F0;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 40px;
-      line-height: 1.6;
-      max-width: 1100px;
+      margin: 0;
+      background-color: var(--accent-light);
     }
+
+    .page {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 32px 36px 40px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
     a {
-      color: #1476d1;
+      color: var(--accent);
       text-decoration: none;
     }
     a:hover {
       text-decoration: underline;
     }
+
     h1, h2, h3 {
       line-height: 1.3;
     }
+
+    h1 {
+      color: var(--accent);
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.8rem;
+    }
+
+    .subtitle-bar {
+      width: 70px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-bottom: 16px;
+    }
+
     .nav {
       font-size: 0.95rem;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
     .nav a {
       margin-right: 18px;
     }
-    .chart-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      margin-top: 20px;
-    }
+
     .note {
       font-size: 0.9rem;
       color: #555;
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 14px;
     }
+
+    .at-a-glance {
+      background: #fff7f7;
+      border-radius: 10px;
+      padding: 10px 14px;
+      border: 1px solid #f2b4b4;
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+    }
+
+    .chart-container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto 24px;
+      text-align: center;
+    }
+
     ul {
       margin-top: 0.2rem;
     }
@@ -46,94 +94,100 @@
 
 <body>
 
-  <div class="nav">
-    <a href="oliver.html">← Back to Oliver overview</a>
-    <a href="oliver_view1_page.html">← Go to View 1</a>
-    <a href="index.html">Back to main page</a>
-  </div>
+  <div class="page">
 
-  <h1>View 2 – Interactions Between Payment Commitments, Customer Segments, and Cancellation Risk</h1>
+    <div class="nav">
+      <a href="oliver.html">← Back to Oliver overview</a>
+      <a href="oliver_view1_page.html">Go to View 1 →</a>
+      <a href="index.html">Back to main page</a>
+    </div>
 
-  <p class="note">
-    This view examines how <strong>pricing</strong>, <strong>payment commitments</strong>
-    (deposit types), and <strong>customer segments</strong> jointly shape
-    <strong>cancellation risk</strong>, with ADR acting as a filter that controls the
-    price range under consideration.
-  </p>
+    <h1>View 2 – Payment Commitments & Cancellation Risk</h1>
+    <div class="subtitle-bar"></div>
 
-  <p><strong>Analytic question.</strong><br>
-    How do payment commitments and customer characteristics interact to influence
-    cancellation likelihood?
-  </p>
+    <p class="note">
+      This view examines how <strong>pricing</strong>, <strong>payment commitments</strong>
+      (deposit types), and <strong>customer segments</strong> jointly shape
+      <strong>cancellation risk</strong>, with ADR acting as a filter that controls the
+      price range under consideration.
+    </p>
 
-  <p><strong>Low-level tasks.</strong></p>
-  <ul>
-    <li>Compare cancellation rates across different deposit types.</li>
-    <li>Compare cancellation rates across different customer types.</li>
-    <li>Examine how specific combinations (e.g., “Non-Refund – Transient”) differ from others.</li>
-    <li>Explore how cancellation risk varies after filtering bookings by ADR range.</li>
-    <li>Investigate differences between hotel types using a selectable interaction.</li>
-  </ul>
+    <div class="at-a-glance">
+      <strong>Analytic question.</strong>
+      How do payment commitments and customer characteristics interact to influence
+      cancellation likelihood?<br><br>
+      <strong>Key tasks:</strong>
+      <ul>
+        <li>Compare cancellation rates across deposit and customer types.</li>
+        <li>See how risk changes across ADR ranges.</li>
+        <li>Contrast patterns between City and Resort hotels using interactive selection.</li>
+      </ul>
+    </div>
 
-  <h2>View Design</h2>
-  <p>
-    The view contains two linked visualizations:
-  </p>
-  <ul>
-    <li>
-      <strong>Histogram + cancellation-rate line chart (Vizz1):</strong><br>
-      ADR is binned on the x-axis. Bars show booking counts, with a toggle to switch
-      between Separate and Combined bar modes. Lines show cancellation rate per ADR bin,
-      one for each hotel type. ADR sliders filter the entire view, and clicking a hotel
-      type filters both Vizz1 and Vizz2.
-    </li>
-    <li>
-      <strong>Deposit-type × customer-type heatmap (Vizz2):</strong><br>
-      Cells show mean cancellation rate for each combination. Color encodes cancellation
-      likelihood, and the view updates based on the selected hotel type and ADR slider range.
-    </li>
-  </ul>
-  <p>
-    Together, these two components support a multilevel examination of how pricing,
-    payment commitment, and guest segmentation relate to cancellation risk.
-  </p>
+    <!-- 图表提前放在上半部分 -->
+    <div class="chart-container">
+      <iframe src="oliver_view2.html"
+              style="width: 95%; height: 1000px; border: none; background: #ffffff;"
+              scrolling="no">
+      </iframe>
+    </div>
 
-  <h2>Channels and Encodings</h2>
-  <p>
-    In Vizz1, horizontal position encodes binned ADR, and vertical position encodes either
-    booking count (bars) or cancellation rate (lines). Color encodes hotel type consistently
-    across bars and lines, while opacity distinguishes the selected hotel type from the
-    non-selected one.
-  </p>
-  <p>
-    The Separate/Combined toggle controls bar stacking behavior, switching between overlaid
-    and stacked views. The line chart adds point marks at each bin to emphasize cancellation
-    values. In Vizz2, the heatmap relies on color intensity to represent cancellation rate,
-    with position determined by deposit type × customer type. A unified blue gradient scale
-    supports consistent interpretation of low, medium, and high risk.
-    ADR sliders act as external filters that constrain the visible ADR domain in both subviews.
-  </p>
+    <!-- 下面是详细说明 -->
 
-  <h2>Interaction</h2>
-  <p>
-    Three main interactions are implemented:
-  </p>
-  <ul>
-    <li><strong>ADR sliders (global filtering):</strong> adjusting the minimum and maximum ADR thresholds recomputes both the histogram + line view and the heatmap using only bookings within the selected ADR range.</li>
-    <li><strong>Hotel selection (hotel_sel):</strong> clicking a hotel bar selects that hotel type; both Vizz1 and Vizz2 update to reflect only the selected hotel, and a double-click clears the selection.</li>
-    <li><strong>View mode toggle (Separate / Combined):</strong> switches between overlaid and stacked bars, allowing comparison of relative versus absolute frequencies.</li>
-  </ul>
-  <p>
-    This combination of global filters, hotel selection, and view mode toggle enables flexible,
-    multidimensional exploration of cancellation risk across price levels, deposit types,
-    and customer segments while keeping the interface interpretable.
-  </p>
+    <h2>View Design</h2>
+    <p>
+      The view contains two linked visualizations:
+    </p>
+    <ul>
+      <li>
+        <strong>Histogram + cancellation-rate line chart (Vizz1):</strong><br>
+        ADR is binned on the x-axis. Bars show booking counts, with a toggle to switch
+        between Separate and Combined bar modes. Lines show cancellation rate per ADR bin,
+        one for each hotel type. ADR sliders filter the entire view, and clicking a hotel
+        type filters both Vizz1 and Vizz2.
+      </li>
+      <li>
+        <strong>Deposit-type × customer-type heatmap (Vizz2):</strong><br>
+        Cells show mean cancellation rate for each combination. Color encodes cancellation
+        likelihood, and the view updates based on the selected hotel type and ADR slider range.
+      </li>
+    </ul>
+    <p>
+      Together, these two components support a multilevel examination of how pricing,
+      payment commitment, and guest segmentation relate to cancellation risk.
+    </p>
 
-  <div class="chart-container">
-    <iframe src="oliver_view2.html"
-            style="width: 95%; height: 1000px; border: none;"
-            scrolling="no">
-    </iframe>
+    <h2>Channels and Encodings</h2>
+    <p>
+      In Vizz1, horizontal position encodes binned ADR, and vertical position encodes either
+      booking count (bars) or cancellation rate (lines). Color encodes hotel type consistently
+      across bars and lines, while opacity distinguishes the selected hotel type from the
+      non-selected one.
+    </p>
+    <p>
+      The Separate/Combined toggle controls bar stacking behavior, switching between overlaid
+      and stacked views. The line chart adds point marks at each bin to emphasize cancellation
+      values. In Vizz2, the heatmap relies on color intensity to represent cancellation rate,
+      with position determined by deposit type × customer type. A unified blue gradient scale
+      supports consistent interpretation of low, medium, and high risk.
+      ADR sliders act as external filters that constrain the visible ADR domain in both subviews.
+    </p>
+
+    <h2>Interaction</h2>
+    <p>
+      Three main interactions are implemented:
+    </p>
+    <ul>
+      <li><strong>ADR sliders (global filtering):</strong> adjusting the minimum and maximum ADR thresholds recomputes both the histogram + line view and the heatmap using only bookings within the selected ADR range.</li>
+      <li><strong>Hotel selection (hotel_sel):</strong> clicking a hotel bar selects that hotel type; both Vizz1 and Vizz2 update to reflect only the selected hotel, and a double-click clears the selection.</li>
+      <li><strong>View mode toggle (Separate / Combined):</strong> switches between overlaid and stacked bars, allowing comparison of relative versus absolute frequencies.</li>
+    </ul>
+    <p>
+      This combination of global filters, hotel selection, and view mode toggle enables flexible,
+      multidimensional exploration of cancellation risk across price levels, deposit types,
+      and customer segments while keeping the interface interpretable.
+    </p>
+
   </div>
 
 </body>
