@@ -5,39 +5,87 @@
   <title>Oliver Huang – View 1: Booking Timing and Pricing</title>
 
   <style>
+    :root {
+      --accent: #E57373;
+      --accent-light: #FFF0F0;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 40px;
-      line-height: 1.6;
-      max-width: 1100px;
+      margin: 0;
+      background-color: var(--accent-light);
     }
+
+    .page {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 32px 36px 40px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
     a {
-      color: #1476d1;
+      color: var(--accent);
       text-decoration: none;
     }
     a:hover {
       text-decoration: underline;
     }
+
     h1, h2, h3 {
       line-height: 1.3;
     }
+
+    h1 {
+      color: var(--accent);
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.8rem;
+    }
+
+    .subtitle-bar {
+      width: 70px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-bottom: 16px;
+    }
+
     .nav {
       font-size: 0.95rem;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
     .nav a {
       margin-right: 18px;
     }
-    .chart-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      margin-top: 20px;
-    }
+
     .note {
       font-size: 0.9rem;
       color: #555;
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 14px;
     }
+
+    .at-a-glance {
+      background: #fff7f7;
+      border-radius: 10px;
+      padding: 10px 14px;
+      border: 1px solid #f2b4b4;
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+    }
+
+    .chart-container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto 24px;
+      text-align: center;
+    }
+
     ul {
       margin-top: 0.2rem;
     }
@@ -46,91 +94,98 @@
 
 <body>
 
-  <div class="nav">
-    <a href="oliver.html">← Back to Oliver overview</a>
-    <a href="oliver_view2_page.html">Go to View 2 →</a>
-    <a href="index.html">Back to main page</a>
-  </div>
+  <div class="page">
 
-  <h1>View 1 – Booking Timing and Pricing: Lead Time–ADR Relationship Across Guest Segments</h1>
+    <div class="nav">
+      <a href="oliver.html">← Back to Oliver overview</a>
+      <a href="oliver_view2_page.html">Go to View 2 →</a>
+      <a href="index.html">Back to main page</a>
+    </div>
 
-  <p class="note">
-    This view focuses on how early guests book (<strong>lead time</strong>) and how much they pay
-    (<strong>ADR</strong>), and how this relationship differs by hotel type, customer type,
-    and distribution channel.
-  </p>
+    <h1>View 1 – Booking Timing and Pricing</h1>
+    <div class="subtitle-bar"></div>
 
-  <p><strong>Analytic question.</strong><br>
-    Do guests who book earlier tend to pay more or less (ADR), and does this relationship differ
-    by guest type or booking channel?
-  </p>
+    <p class="note">
+      This view looks at how early guests book (<strong>lead time</strong>) and how much they pay
+      (<strong>ADR</strong>), and how this relationship changes across hotel type, customer type,
+      and distribution channel.
+    </p>
 
-  <p><strong>Low-level tasks.</strong></p>
-  <ul>
-    <li>Compare the distribution of ADR across different lead times.</li>
-    <li>Identify whether the relationship between lead time and ADR changes across hotel types.</li>
-    <li>Examine how booking patterns differ across customer types and booking channels.</li>
-    <li>Filter and highlight relevant subsets of points to explore patterns interactively.</li>
-  </ul>
+    <div class="at-a-glance">
+      <strong>Analytic question.</strong>
+      Do guests who book earlier tend to pay more or less (ADR), and does this relationship differ
+      by guest type or booking channel?<br><br>
+      <strong>Key tasks:</strong>
+      <ul>
+        <li>Compare ADR across different lead times and hotel types.</li>
+        <li>Inspect how booking patterns differ across customer types and distribution channels.</li>
+        <li>Use brushing and clicking to focus on specific segments.</li>
+      </ul>
+    </div>
 
-  <h2>View Design</h2>
-  <p>
-    The view consists of four linked components:
-  </p>
-  <ul>
-    <li>A scatter plot of <strong>lead_time vs ADR</strong> with brush selection.</li>
-    <li><strong>Trend lines</strong> (one per hotel type) summarizing the overall lead time–ADR pattern.</li>
-    <li>A <strong>stacked bar chart</strong> showing distribution channels within each customer type, filtered by the scatter selection.</li>
-    <li>A <strong>boxplot</strong> of lead time across customer types.</li>
-  </ul>
-  <p>
-    All components respond to user selections, and checkboxes for <strong>City Hotel</strong> and
-    <strong>Resort Hotel</strong> act as global filters.
-  </p>
+    <!-- 图表提前放在上半部分 -->
+    <div class="chart-container">
+      <iframe src="oliver_view1.html"
+              style="width: 95%; height: 950px; border: none; background: #ffffff;"
+              scrolling="no">
+      </iframe>
+    </div>
 
-  <h2>Channels and Encodings</h2>
-  <p>
-    The scatter plot uses position (lead time on the x-axis, ADR on the y-axis) as the primary
-    channel to show the booking timing–pricing relationship. Color encodes hotel type and is
-    used consistently across scatter points and trend lines. Opacity de-emphasizes points
-    outside the current selection, guiding attention to active subsets.
-  </p>
-  <p>
-    The trend lines add a derived positional encoding that summarizes the general direction
-    of the relationship for each hotel type. The stacked bar chart uses length to represent
-    booking counts and color to encode distribution channels. The boxplot uses vertical
-    position to compare lead time across customer types, showing variation, median, and spread.
-  </p>
+    <!-- 下面是更详细的文字说明 -->
 
-  <h2>Interaction</h2>
-  <p>
-    Two main interactions are implemented:
-  </p>
-  <ul>
-    <li><strong>Brush selection on the scatter plot:</strong> dragging across the scatter filters the bar chart; brushed points keep full color and opacity while others fade.</li>
-    <li><strong>Point selection on the stacked bar chart:</strong> clicking a bar segment (e.g., “Transient – Direct”) highlights the corresponding points in the scatter plot; other segments remain visible but semi-transparent, supporting multi-selection and comparison.</li>
-  </ul>
-  <p>
-    These interactions create a linked, bidirectional filtering system. Checkbox parameters
-    for hotel type provide an additional global filter, updating the scatter, trend lines,
-    bar chart, and boxplot simultaneously.
-  </p>
+    <h2>View Design</h2>
+    <p>
+      The view consists of four linked components:
+    </p>
+    <ul>
+      <li>A scatter plot of <strong>lead_time vs ADR</strong> with brush selection.</li>
+      <li><strong>Trend lines</strong> (one per hotel type) summarizing the overall lead time–ADR pattern.</li>
+      <li>A <strong>stacked bar chart</strong> showing distribution channels within each customer type, filtered by the scatter selection.</li>
+      <li>A <strong>boxplot</strong> of lead time across customer types.</li>
+    </ul>
+    <p>
+      All components respond to user selections, and checkboxes for <strong>City Hotel</strong> and
+      <strong>Resort Hotel</strong> act as global filters.
+    </p>
 
-  <h2>Critique</h2>
-  <p>
-    Overall, this view effectively links individual bookings with aggregated patterns.
-    The scatter plot and trend lines help reveal how lead time relates to ADR across hotel types.
-    The stacked bar chart supports understanding guest segmentation by channel, although
-    category imbalances and some overplotting in the scatter can still make comparisons
-    slightly challenging. The boxplot adds structural context for booking timing across
-    customer types, even though its connection to ADR is indirect.
-  </p>
+    <h2>Channels and Encodings</h2>
+    <p>
+      The scatter plot uses position (lead time on the x-axis, ADR on the y-axis) as the primary
+      channel to show the booking timing–pricing relationship. Color encodes hotel type and is
+      used consistently across scatter points and trend lines. Opacity de-emphasizes points
+      outside the current selection, guiding attention to active subsets.
+    </p>
+    <p>
+      The trend lines add a derived positional encoding that summarizes the general direction
+      of the relationship for each hotel type. The stacked bar chart uses length to represent
+      booking counts and color to encode distribution channels. The boxplot uses vertical
+      position to compare lead time across customer types, showing variation, median, and spread.
+    </p>
 
-  <div class="chart-container">
-    <iframe src="oliver_view1.html"
-            style="width: 95%; height: 950px; border: none;"
-            scrolling="no">
-    </iframe>
+    <h2>Interaction</h2>
+    <p>
+      Two main interactions are implemented:
+    </p>
+    <ul>
+      <li><strong>Brush selection on the scatter plot:</strong> dragging across the scatter filters the bar chart; brushed points keep full color and opacity while others fade.</li>
+      <li><strong>Point selection on the stacked bar chart:</strong> clicking a bar segment (e.g., “Transient – Direct”) highlights the corresponding points in the scatter plot; other segments remain visible but semi-transparent, supporting multi-selection and comparison.</li>
+    </ul>
+    <p>
+      These interactions create a linked, bidirectional filtering system. Checkbox parameters
+      for hotel type provide an additional global filter, updating the scatter, trend lines,
+      bar chart, and boxplot simultaneously.
+    </p>
+
+    <h2>Critique</h2>
+    <p>
+      Overall, this view effectively links individual bookings with aggregated patterns.
+      The scatter plot and trend lines help reveal how lead time relates to ADR across hotel types.
+      The stacked bar chart supports understanding guest segmentation by channel, although
+      category imbalances and some overplotting in the scatter can still make comparisons
+      slightly challenging. The boxplot adds structural context for booking timing across
+      customer types, even though its connection to ADR is indirect.
+    </p>
+
   </div>
 
 </body>
