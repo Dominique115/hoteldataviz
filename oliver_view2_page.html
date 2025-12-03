@@ -17,7 +17,7 @@
     }
 
     .page {
-      max-width: 1100px;
+      max-width: 1300px;
       margin: 40px auto;
       padding: 32px 36px 40px;
       background: #ffffff;
@@ -52,12 +52,28 @@
       margin-bottom: 16px;
     }
 
+    /* 顶部跳转按钮 UI */
     .nav {
-      font-size: 0.95rem;
       margin-bottom: 22px;
     }
-    .nav a {
-      margin-right: 18px;
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+    .nav-link {
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: #fff5f5;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .nav-link:hover {
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
     }
 
     .note {
@@ -79,15 +95,61 @@
       margin-bottom: 18px;
     }
 
+    .at-a-glance ul {
+      margin-top: 4px;
+      padding-left: 18px;
+    }
+
     .chart-container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto 24px;
       text-align: center;
     }
 
-    ul {
-      margin-top: 0.2rem;
+    .sections {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .section-card {
+      background: #fffafa;
+      border-radius: 12px;
+      border: 1px solid #f3b7b7;
+      padding: 14px 18px 16px;
+    }
+
+    .section-card h2,
+    .section-card h3 {
+      margin-top: 0;
+      margin-bottom: 6px;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 1.1rem;
+      color: #c55454;
+    }
+
+    .section-card p,
+    .section-card ul {
+      font-family: "Trebuchet MS", system-ui, sans-serif;
+      font-size: 0.95rem;
+      margin-top: 4px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .section-card ul {
+      padding-left: 18px;
+    }
+
+    @media (max-width: 800px) {
+      .page {
+        margin: 20px auto;
+        padding: 20px;
+      }
+      .chart-container iframe {
+        height: 900px;
+      }
     }
   </style>
 </head>
@@ -97,9 +159,11 @@
   <div class="page">
 
     <div class="nav">
-      <a href="oliver.html">← Back to Oliver overview</a>
-      <a href="oliver_view1_page.html">Go to View 1 →</a>
-      <a href="index.html">Back to main page</a>
+      <div class="nav-links">
+        <a class="nav-link" href="oliver.html">← Back to Oliver overview</a>
+        <a class="nav-link" href="oliver_view1_page.html">Go to View 1 →</a>
+        <a class="nav-link" href="index.html">Back to main page</a>
+      </div>
     </div>
 
     <h1>View 2 – Payment Commitments & Cancellation Risk</h1>
@@ -120,73 +184,78 @@
       <ul>
         <li>Compare cancellation rates across deposit and customer types.</li>
         <li>See how risk changes across ADR ranges.</li>
-        <li>Contrast patterns between City and Resort hotels using interactive selection.</li>
+        <li>Contrast City and Resort hotels using interactive selection.</li>
       </ul>
     </div>
 
-    <!-- 图表提前放在上半部分 -->
+    <!-- 图表放上面 -->
     <div class="chart-container">
       <iframe src="oliver_view2.html"
-              style="width: 95%; height: 1000px; border: none; background: #ffffff;"
+              style="width: 100%; height: 1000px; border: none; background: #ffffff;"
               scrolling="no">
       </iframe>
     </div>
 
-    <!-- 下面是详细说明 -->
+    <!-- 简化后说明卡片 -->
+    <div class="sections">
 
-    <h2>View Design</h2>
-    <p>
-      The view contains two linked visualizations:
-    </p>
-    <ul>
-      <li>
-        <strong>Histogram + cancellation-rate line chart (Vizz1):</strong><br>
-        ADR is binned on the x-axis. Bars show booking counts, with a toggle to switch
-        between Separate and Combined bar modes. Lines show cancellation rate per ADR bin,
-        one for each hotel type. ADR sliders filter the entire view, and clicking a hotel
-        type filters both Vizz1 and Vizz2.
-      </li>
-      <li>
-        <strong>Deposit-type × customer-type heatmap (Vizz2):</strong><br>
-        Cells show mean cancellation rate for each combination. Color encodes cancellation
-        likelihood, and the view updates based on the selected hotel type and ADR slider range.
-      </li>
-    </ul>
-    <p>
-      Together, these two components support a multilevel examination of how pricing,
-      payment commitment, and guest segmentation relate to cancellation risk.
-    </p>
+      <div class="section-card">
+        <h2>Design overview</h2>
+        <p>This view contains two linked visualizations:</p>
+        <ul>
+          <li>
+            <strong>Histogram + cancellation-rate line chart (Vizz1):</strong>
+            ADR is binned on the x-axis. Bars show booking counts, and lines show
+            cancellation rate per bin for each hotel type. ADR sliders and hotel selection
+            control which bookings are included.
+          </li>
+          <li>
+            <strong>Deposit-type × customer-type heatmap (Vizz2):</strong>
+            Each cell shows the mean cancellation rate for a deposit–customer combination,
+            updating to match the current ADR range and hotel selection.
+          </li>
+        </ul>
+      </div>
 
-    <h2>Channels and Encodings</h2>
-    <p>
-      In Vizz1, horizontal position encodes binned ADR, and vertical position encodes either
-      booking count (bars) or cancellation rate (lines). Color encodes hotel type consistently
-      across bars and lines, while opacity distinguishes the selected hotel type from the
-      non-selected one.
-    </p>
-    <p>
-      The Separate/Combined toggle controls bar stacking behavior, switching between overlaid
-      and stacked views. The line chart adds point marks at each bin to emphasize cancellation
-      values. In Vizz2, the heatmap relies on color intensity to represent cancellation rate,
-      with position determined by deposit type × customer type. A unified blue gradient scale
-      supports consistent interpretation of low, medium, and high risk.
-      ADR sliders act as external filters that constrain the visible ADR domain in both subviews.
-    </p>
+      <div class="section-card">
+        <h2>Encodings</h2>
+        <p>
+          In Vizz1, horizontal position encodes ADR bins and vertical position encodes either
+          booking count (bars) or cancellation rate (lines). Color represents hotel type,
+          and opacity highlights the selected hotel while keeping the other faint.
+        </p>
+        <p>
+          The heatmap relies on color intensity to represent cancellation rate, with position
+          determined by deposit type (x) and customer type (y). A single blue gradient makes
+          low, medium, and high risk easy to compare across cells.
+        </p>
+      </div>
 
-    <h2>Interaction</h2>
-    <p>
-      Three main interactions are implemented:
-    </p>
-    <ul>
-      <li><strong>ADR sliders (global filtering):</strong> adjusting the minimum and maximum ADR thresholds recomputes both the histogram + line view and the heatmap using only bookings within the selected ADR range.</li>
-      <li><strong>Hotel selection (hotel_sel):</strong> clicking a hotel bar selects that hotel type; both Vizz1 and Vizz2 update to reflect only the selected hotel, and a double-click clears the selection.</li>
-      <li><strong>View mode toggle (Separate / Combined):</strong> switches between overlaid and stacked bars, allowing comparison of relative versus absolute frequencies.</li>
-    </ul>
-    <p>
-      This combination of global filters, hotel selection, and view mode toggle enables flexible,
-      multidimensional exploration of cancellation risk across price levels, deposit types,
-      and customer segments while keeping the interface interpretable.
-    </p>
+      <div class="section-card">
+        <h2>Interactions</h2>
+        <ul>
+          <li><strong>ADR sliders:</strong> restrict the analysis to bookings within a chosen ADR range; both Vizz1 and Vizz2 recompute based on this subset.</li>
+          <li><strong>Hotel selection:</strong> clicking a bar selects City or Resort hotels; both views filter to that hotel type, and double-click clears the selection.</li>
+          <li><strong>Separate / Combined toggle:</strong> switches between overlaid and stacked bars, supporting comparison of relative vs. absolute frequencies.</li>
+        </ul>
+        <p>These interactions support multidimensional filtering across price, hotel type, and guest segment.</p>
+      </div>
+
+      <div class="section-card">
+        <h2>Critique</h2>
+        <p>
+          The combination of histogram, line, and heatmap makes cancellation patterns across
+          price levels and guest segments easy to see. Global filtering through ADR sliders
+          and hotel selection is flexible but still understandable.
+        </p>
+        <p>
+          However, the view can become dense when many bins or categories are active, and the
+          meaning of “Separate vs. Combined” bars may need a short verbal explanation for
+          first-time users.
+        </p>
+      </div>
+
+    </div>
 
   </div>
 
