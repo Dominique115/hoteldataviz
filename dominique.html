@@ -2,75 +2,260 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Dominique Chen – Views & Critiques</title>
+  <title>Dominique Chen – Hotel Booking Patterns &amp; Timing</title>
 
   <style>
+    :root {
+      --accent: #3AAFA9;
+      --accent-light: #EBF8F7;
+      --text-dark: #1e3a38;
+      --text-soft: #3d5c5a;
+    }
+
     body {
-      font-family: system-ui, sans-serif;
-      margin: 40px;
-      line-height: 1.6;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      margin: 0;
+      background-color: var(--accent-light);
     }
-    a {
-      color: #1476d1;
-    }
-  </style>
-  <style>
-        .chart-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-  </style>
 
+    .page {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 32px 36px 40px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    h1 {
+      color: var(--accent);
+      font-size: 2.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle-bar {
+      width: 80px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-family: "Georgia", serif;
+      color: #2a8a85;
+      font-weight: 700;
+      font-size: 1.55rem;
+      margin-top: 34px;
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    h3 {
+      font-family: "Georgia", serif;
+      color: #30938e;
+      font-size: 1.28rem;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    .section-text {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .section-list {
+      font-size: 1rem;
+      color: var(--text-soft);
+      line-height: 1.48;
+      padding-left: 20px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+
+    .section-list li strong { color: #2a8a85; }
+
+    .theme-box {
+      background: var(--accent-light);
+      border-left: 5px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      font-size: 1rem;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .theme-box strong { color: var(--text-dark); }
+
+    .view-section {
+      background: #f3fdfc;
+      border: 1px solid #a8dbd8;
+      padding: 20px 24px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+      margin-top: 24px;
+    }
+
+    .view-section h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: #2a8a85;
+      font-family: "Georgia", serif;
+      font-size: 1.2rem;
+    }
+
+    .view-section p {
+      margin: 6px 0 8px;
+      font-size: 0.97rem;
+      color: var(--text-soft);
+      line-height: 1.45;
+    }
+
+    .view-section ul {
+      margin-top: 4px;
+      margin-bottom: 12px;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      padding-left: 20px;
+    }
+
+    .view-section ul li strong { color: #2a8a85; }
+
+    .iframe-wrap { width: 100%; margin-top: 16px; }
+
+    .iframe-wrap iframe {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 26px;
+      font-size: 0.95rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: #f0fdfc;
+      color: var(--accent);
+    }
+
+    .back-link:hover { background: var(--accent); color: white; text-decoration: none; }
+
+    @media (max-width: 850px) {
+      .page { margin: 20px auto; padding: 20px; }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="page">
 
-  <h1>Dominique Chen – Views</h1>
-  <p>Reminder: Please zoom out to get the full view if needed (sorry I don't know how to work with htmls).
-  Also some viz might take longer to load so if nothing is happening for the interaction please refresh(or wait for a bit) or switch between conditions using drop-down.
-Thank you so so much!</p>
- <h2>View1：What are monthly patterns of hotel booking request, arrival and stay length? How does it relate to earnings(ADR)?</h2>
-  <p>ADR is calculated by dividing sum of all lodging transactions by total number of staying nights.</p>
-    <div class="chart-container">
-        <iframe src="dominique_hotel_view1.html" 
-                style="width: 95%; height: 950px; border: none; "
-                scrolling="no">
-        </iframe>
+    <h1>Dominique Chen – Hotel Booking Patterns &amp; Timing</h1>
+    <div class="subtitle-bar"></div>
+
+    <div class="theme-box">
+      <strong>Theme:</strong> Monthly booking patterns, arrival timing, and customer segment behavior.<br>
+      These views explore how hotels receive and fulfill bookings across time, and how different customer and market segments relate to key timing metrics.
     </div>
-<h2>View 2: How do customer type and market segments relate to different timing patterns across the booking span?</h2>
-  <p><strong>Customer Type:</strong></p>
-<ul>
-  <li><strong>Contract</strong> – Guests under corporate or negotiated-rate contracts.</li>
-  <li><strong>Group</strong> – Bookings made for groups (e.g., events, conferences).</li>
-  <li><strong>Transient</strong> – Individual, non-group travelers making independent bookings.</li>
-  <li><strong>Transient-Party</strong> – Small parties or families traveling together but not large groups.</li>
-</ul>
-<p><strong>Market Segment:</strong></p>
-<ul>
-  <li><strong>Aviation Crew</strong> – Airline staff with dedicated negotiated contracts.</li>
-  <li><strong>Complimentary (Free)</strong> – Free stays (e.g., service recovery or compensation).</li>
-  <li><strong>Corporate Clients</strong> – Corporate-negotiated bookings.</li>
-  <li><strong>Direct Booking</strong> – Booked directly through the hotel (website, phone).</li>
-  <li><strong>Group Reservations</strong> – Reservations made under group codes.</li>
-  <li><strong>Offline Tour Operators</strong> – Bookings through traditional travel agencies.</li>
-  <li><strong>Online Travel Agents</strong> – Online booking platforms (website, apps).</li>
-</ul>
-<p><strong>Time stamps:</strong></p>
-<ul>
-  <li><strong>Days in Waitlist</strong> – Time between making request to book until successful booking.</li>
-  <li><strong>Days before Arrival</strong> – Time betweeen successful booking to arrival at the hotel.</li>
-  <li><strong>Days Stayed</strong> – Time between arrival at hotel to departure.</li>
-</ul>
-    <div class="chart-container">
-        <iframe src="dominique_hotel_view2.html" 
-                style="width: 95%; height: 1000px; border: none; "
-                scrolling="no">
-        </iframe>
+
+    <h2>Overall Research Question</h2>
+    <p class="section-text">
+      <strong style="color:#2a8a85;">
+        What are the monthly patterns of hotel booking requests, arrivals, and stay length — and how do customer type and market segment relate to timing across the booking span?
+      </strong>
+    </p>
+
+    <h3>View-specific Analytic Questions</h3>
+    <ul class="section-list">
+      <li><strong>View 1:</strong> What are monthly patterns of hotel booking requests, arrivals, and stay length? How does this relate to earnings (ADR)?</li>
+      <li><strong>View 2:</strong> How do customer type and market segment relate to different timing patterns across the booking span?</li>
+    </ul>
+
+    <h2>Views</h2>
+
+    <div class="view-section">
+      <h3>View 1 – Monthly Booking, Arrival &amp; Stay Patterns</h3>
+      <p>ADR is calculated by dividing the sum of all lodging transactions by the total number of staying nights.</p>
+      <div class="iframe-wrap">
+        <iframe src="dominique_hotel_view1.html" style="height:950px;" scrolling="no"></iframe>
+      </div>
+      <p class="section-text" style="margin-top:18px;">
+        The monthly booking count charts reveal a clear seasonal rhythm across both hotel types.
+        City hotels sustain relatively higher booking volumes year-round, while resort hotels show
+        sharper seasonal spikes, peaking in the spring months and October, likely preparing for summer and fall vacation periods. Arrival counts forcity hotels maintaining steadier arrivals throughout the year, while resort hotels experience higher numbers during the summer.
+        Average daily rates (ADR) for resort hotel climbs in
+        summer and dips in off-peak months, whereas city hotel ADR remains more stable across the
+        year, reflecting its heavier reliance on business and corporate travelers who are less
+        sensitive to the calendar.
+      </p>
+      <p class="section-text">
+        The ADR vs. total nights scatter shows that the majority of stays cluster at shorter
+        durations across a wide ADR range, while extended stays are mostly recorded to be with resort hotels, concentrate at lower-to-mid ADR
+        values. Suggesting that longer stays tend to come with rate discounts, or that
+        budget-conscious guests self-select into multi-night bookings. The booking date vs. arrival
+        date panel reinforces that most guests plan within a few months of arrival, with a
+        small fraction booking very far in advance, likely for peak-season stays that require
+        earlier reservation windows.
+      </p>
     </div>
-  <br><br>
 
-  <a href="index.html">← Back to main page</a>
+    <div class="view-section">
+      <h3>View 2 – Customer Type &amp; Market Segment Timing</h3>
+      <p><strong>Customer Type:</strong></p>
+      <ul>
+        <li><strong>Contract</strong> – Guests under corporate or negotiated-rate contracts.</li>
+        <li><strong>Group</strong> – Bookings made for groups (e.g., events, conferences).</li>
+        <li><strong>Transient</strong> – Individual, non-group travelers making independent bookings.</li>
+        <li><strong>Transient-Party</strong> – Small parties or families traveling together but not large groups.</li>
+      </ul>
+      <p><strong>Market Segment:</strong></p>
+      <ul>
+        <li><strong>Aviation Crew</strong> – Airline staff with dedicated negotiated contracts.</li>
+        <li><strong>Complimentary</strong> – Free stays (e.g., service recovery or compensation).</li>
+        <li><strong>Corporate Clients</strong> – Corporate-negotiated bookings.</li>
+        <li><strong>Direct Booking</strong> – Booked directly through the hotel (website, phone).</li>
+        <li><strong>Group Reservations</strong> – Reservations made under group codes.</li>
+        <li><strong>Offline Tour Operators</strong> – Bookings through traditional travel agencies.</li>
+        <li><strong>Online Travel Agents</strong> – Online booking platforms (website, apps).</li>
+      </ul>
+      <p><strong>Time Stamps:</strong></p>
+      <ul>
+        <li><strong>Days in Waitlist</strong> – Time from booking request until confirmed booking.</li>
+        <li><strong>Days before Arrival</strong> – Time from confirmed booking to hotel arrival.</li>
+        <li><strong>Days Stayed</strong> – Time from arrival to departure.</li>
+      </ul>
+      <div class="iframe-wrap">
+        <iframe src="dominique_hotel_view2.html" style="height:1000px;" scrolling="no"></iframe>
+      </div>
+      <p class="section-text" style="margin-top:18px;">
+        The timing heatmap shows that waitlist times are negligible for most customer and segment
+        combinations, with group reservations and certain corporate bookings being the exceptions
+        that occasionally require a wait. The days-before-arrival dimension reveals the sharpest
+        differences: contract and many group customers book with much longer lead times
+        than transient travelers, who show a wide variety of preference for booking lead times. This aligns
+        with the nature of those relationships, corporate contracts and group events require
+        advance planning, while individual leisure or business travelers have more flexibility.
+      </p>
+      <p class="section-text">
+        Across market segments, online travel agents dominate transient
+        bookings, while offline tour operators are more associated with contract bookings. Days stayed is generally short for groups and contract customers at city hotel. Transient customers show a more varied pattern, but their stays are generally longer. Overall, the visualization suggests that customer type and market
+        segment are closely linked, knowing one helps us to understand the other, and that timing
+        behavior is shaped more by the nature of the stay (planned event vs. independent trip)
+        than by booking channel alone.
+      </p>
+    </div>
 
+    <a class="back-link" href="index.html">← Back to main page</a>
+
+  </div>
 </body>
 </html>
